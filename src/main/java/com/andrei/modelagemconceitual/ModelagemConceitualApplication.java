@@ -1,0 +1,15 @@
+package com.andrei.modelagemconceitual;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class ModelagemConceitualApplication {
+
+	//TROCAR PORTA DO SERVIDOR:
+	//DENTRO DE SRC/MAIN/RESOURCES: APPLICATION.PROPERTIES
+	//server.port=${port:8081}
+	public static void main(String[] args) {
+		SpringApplication.run(ModelagemConceitualApplication.class, args);
+	}
+}
