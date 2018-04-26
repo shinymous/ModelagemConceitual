@@ -1,5 +1,6 @@
 package com.andrei.modelagemconceitual;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,20 @@ import com.andrei.modelagemconceitual.domain.Cidade;
 import com.andrei.modelagemconceitual.domain.Cliente;
 import com.andrei.modelagemconceitual.domain.Endereco;
 import com.andrei.modelagemconceitual.domain.Estado;
+import com.andrei.modelagemconceitual.domain.Pagamento;
+import com.andrei.modelagemconceitual.domain.PagamentoComBoleto;
+import com.andrei.modelagemconceitual.domain.PagamentoComCartao;
+import com.andrei.modelagemconceitual.domain.Pedido;
 import com.andrei.modelagemconceitual.domain.Produto;
+import com.andrei.modelagemconceitual.domain.enums.EstadoPagamento;
 import com.andrei.modelagemconceitual.domain.enums.TipoCliente;
 import com.andrei.modelagemconceitual.repositories.CategoriaRepository;
 import com.andrei.modelagemconceitual.repositories.CidadeRepository;
 import com.andrei.modelagemconceitual.repositories.ClienteRepository;
 import com.andrei.modelagemconceitual.repositories.EnderecoRepository;
 import com.andrei.modelagemconceitual.repositories.EstadoRepository;
+import com.andrei.modelagemconceitual.repositories.PagamentoRepository;
+import com.andrei.modelagemconceitual.repositories.PedidoRepository;
 import com.andrei.modelagemconceitual.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -36,6 +44,10 @@ public class ModelagemConceitualApplication implements CommandLineRunner{
 	private ClienteRepository clienteRepository;
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
 	//TROCAR PORTA DO SERVIDOR:
 	//DENTRO DE SRC/MAIN/RESOURCES: APPLICATION.PROPERTIES
 	//server.port=${port:8081}
@@ -87,5 +99,21 @@ public class ModelagemConceitualApplication implements CommandLineRunner{
 		
 		clienteRepository.saveAll(Arrays.asList(cli1));
 		enderecoRepository.saveAll(Arrays.asList(e1,e2));
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		
+		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, e1);
+		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), cli1, e2);
+		
+		Pagamento pgto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+		ped1.setPagamento(pgto1);
+		
+		Pagamento pgto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
+		ped2.setPagamento(pgto2);
+		
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+		
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+		pagamentoRepository.saveAll(Arrays.asList(pgto1, pgto2));
 	}
 }
