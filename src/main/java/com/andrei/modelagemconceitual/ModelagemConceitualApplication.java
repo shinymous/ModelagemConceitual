@@ -8,8 +8,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.andrei.modelagemconceitual.domain.Categoria;
+import com.andrei.modelagemconceitual.domain.Cidade;
+import com.andrei.modelagemconceitual.domain.Estado;
 import com.andrei.modelagemconceitual.domain.Produto;
 import com.andrei.modelagemconceitual.repositories.CategoriaRepository;
+import com.andrei.modelagemconceitual.repositories.CidadeRepository;
+import com.andrei.modelagemconceitual.repositories.EstadoRepository;
 import com.andrei.modelagemconceitual.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -17,9 +21,12 @@ public class ModelagemConceitualApplication implements CommandLineRunner{
 	
 	@Autowired
 	CategoriaRepository categoriaRepository;
-	
 	@Autowired
 	private ProdutoRepository produtoRepository;
+	@Autowired
+	private EstadoRepository estadoRepository;
+	@Autowired
+	private CidadeRepository cidadeRepository;
 	//TROCAR PORTA DO SERVIDOR:
 	//DENTRO DE SRC/MAIN/RESOURCES: APPLICATION.PROPERTIES
 	//server.port=${port:8081}
@@ -46,5 +53,19 @@ public class ModelagemConceitualApplication implements CommandLineRunner{
 		
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
 		produtoRepository.saveAll(Arrays.asList(p1,p2,p3));
+		
+		
+		Estado est1 = new Estado(null, "Minas Gerais");
+		Estado est2 = new Estado(null, "São Paulo");
+		
+		Cidade c1 = new Cidade(null, "Uberlândia", est1);
+		Cidade c2 = new Cidade(null, "São Paulo", est2);
+		Cidade c3 = new Cidade(null, "Campinas", est2);
+		
+		est1.getCidades().addAll(Arrays.asList(c1));
+		est2.getCidades().addAll(Arrays.asList(c2, c3));
+		
+		estadoRepository.saveAll(Arrays.asList(est1, est2));
+		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
 	}
 }
