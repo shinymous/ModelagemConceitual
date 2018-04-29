@@ -13,6 +13,7 @@ import com.andrei.modelagemconceitual.domain.Cidade;
 import com.andrei.modelagemconceitual.domain.Cliente;
 import com.andrei.modelagemconceitual.domain.Endereco;
 import com.andrei.modelagemconceitual.domain.Estado;
+import com.andrei.modelagemconceitual.domain.ItemPedido;
 import com.andrei.modelagemconceitual.domain.Pagamento;
 import com.andrei.modelagemconceitual.domain.PagamentoComBoleto;
 import com.andrei.modelagemconceitual.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.andrei.modelagemconceitual.repositories.CidadeRepository;
 import com.andrei.modelagemconceitual.repositories.ClienteRepository;
 import com.andrei.modelagemconceitual.repositories.EnderecoRepository;
 import com.andrei.modelagemconceitual.repositories.EstadoRepository;
+import com.andrei.modelagemconceitual.repositories.ItemPedidoRepository;
 import com.andrei.modelagemconceitual.repositories.PagamentoRepository;
 import com.andrei.modelagemconceitual.repositories.PedidoRepository;
 import com.andrei.modelagemconceitual.repositories.ProdutoRepository;
@@ -48,6 +50,8 @@ public class ModelagemConceitualApplication implements CommandLineRunner{
 	private PedidoRepository pedidoRepository;
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 	//TROCAR PORTA DO SERVIDOR:
 	//DENTRO DE SRC/MAIN/RESOURCES: APPLICATION.PROPERTIES
 	//server.port=${port:8081}
@@ -113,7 +117,22 @@ public class ModelagemConceitualApplication implements CommandLineRunner{
 		
 		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
 		
+		
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pgto1, pgto2));
+		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
+		
 	}
 }
