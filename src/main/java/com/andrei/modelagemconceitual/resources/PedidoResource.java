@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.andrei.modelagemconceitual.domain.Cliente;
 import com.andrei.modelagemconceitual.domain.Pedido;
-import com.andrei.modelagemconceitual.dto.ClienteNewDTO;
 import com.andrei.modelagemconceitual.services.PedidoService;
 
 @RestController
