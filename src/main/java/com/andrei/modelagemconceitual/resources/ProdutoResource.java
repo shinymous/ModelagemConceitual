@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.andrei.modelagemconceitual.domain.Produto;
-import com.andrei.modelagemconceitual.dto.CategoriaDTO;
 import com.andrei.modelagemconceitual.dto.ProdutoDTO;
 import com.andrei.modelagemconceitual.resources.utils.URL;
 import com.andrei.modelagemconceitual.services.ProdutoService;
